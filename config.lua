@@ -90,24 +90,4 @@ doom.use_package({
   end,
 })
 
--- chatgpt
-
-vim.env.OPENAI_API_KEY = "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"
-
--- doom.use_package({
---   "jackMort/ChatGPT.nvim",
---   config = function()
---       require("chatgpt").setup({
---         keymaps = {
---           submit = "<M-Enter>"
---         }
---       })
---   end,
---   dependencies = {
---       "MunifTanjim/nui.nvim",
---       "nvim-lua/plenary.nvim",
---       "nvim-telescope/telescope.nvim"
---   }
--- })
-
 -- vim: sw=2 sts=2 ts=2 expandtab
