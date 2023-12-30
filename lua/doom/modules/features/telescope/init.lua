@@ -49,13 +49,15 @@ telescope.settings = {
 telescope.packages = {
   ["telescope.nvim"] = {
     "nvim-telescope/telescope.nvim",
-    commit = "f174a0367b4fc7cb17710d867e25ea792311c418",
+    -- commit = "f174a0367b4fc7cb17710d867e25ea792311c418",
+    tag = "0.1.2",
     cmd = "Telescope",
     opt = true,
   },
   ["telescope-file-browser.nvim"] = {
     "nvim-telescope/telescope-file-browser.nvim",
-    commit = "6b4e22777bfa6a31787a4ac8e086b062ef241ede",
+    -- commit = "6b4e22777bfa6a31787a4ac8e086b062ef241ede",
+    commit = "e03ff55",
     cmd = "Telescope browse_files",
     key = "<leader>.",
     after = "telescope.nvim",
