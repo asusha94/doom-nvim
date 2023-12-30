@@ -15,7 +15,7 @@ return {
     "comment", -- Adds keybinds to comment in any language
     "linter", -- Linting and formatting for languages
     "lsp", -- Code completion
-    "extra_snippets", -- Code snippets for all languages
+    -- "extra_snippets", -- Code snippets for all languages
 
     -- Editor
     "auto_session", -- Remember sessions between loads
@@ -25,7 +25,7 @@ return {
     "illuminate", -- Highlight other copies of the word you're hovering on
     "indentlines", -- Show indent lines with special characters
     "range_highlight", -- Highlight selected range from commands
-    "todo_comments", -- Highlight TODO: comments
+    -- "todo_comments", -- Highlight TODO: comments
     -- "doom_themes",     -- Extra themes for doom
 
     -- UI Components
@@ -34,24 +34,24 @@ return {
     "dashboard", -- A pretty dashboard upon opening
     -- "trouble",         -- A pretty diagnostic viewer
     "statusline", -- A pretty status line at the bottom of the buffer
-    -- "minimap",         -- Shows current position in document
-    -- "terminal",        -- Integrated terminal in neovim
-    -- "symbols",         -- Navigate between code symbols using telescope
+    "minimap",         -- Shows current position in document
+    "terminal",        -- Integrated terminal in neovim
+    "symbols",         -- Navigate between code symbols using telescope
     -- "ranger",          -- File explorer in neovim (TODO: Test)
     -- "restclient",      -- Test HTTP requests from neovim (TODO: Test)
-    -- "show_registers",  -- Show and navigate between registers
+    "show_registers",  -- Show and navigate between registers
 
     -- Tools
-    -- "dap",             -- Debug code through neovim
+    "dap",             -- Debug code through neovim
     "repl", -- Interactive REPL in neovim
     "explorer", -- An enhanced filetree explorer
-    -- "firenvim",        -- Embed neovim in your browser
+    "firenvim",        -- Embed neovim in your browser
     -- "lazygit",         -- Lazy git integration
-    -- "neogit",          -- A git client for neovim
-    "neorg", -- Organise your life
+    "neogit",          -- A git client for neovim
+    -- "neorg", -- Organise your life
     "projects", -- Quickly switch between projects
-    -- "superman",        -- Read unix man pages in neovim
-    -- "suda",            -- Save using sudo when necessary
+    "superman",        -- Read unix man pages in neovim
+    "suda",            -- Save using sudo when necessary
     "telescope", -- Fuzzy searcher to find files, grep code and more
     "whichkey", -- An interactive sheet
   },
@@ -59,7 +59,7 @@ return {
     -- Scripts
     "lua",
     -- "python",
-    -- "bash",
+    "bash",
     -- "fish",
     -- "gdscript",
     -- "gdscript",
@@ -75,22 +75,21 @@ return {
     -- "svelte",
 
     -- Compiled
-    -- "rust",
-    -- "cc",
+    "rust",
+    "cc",
     -- "ocaml",
     -- "haskell",
 
     -- JIT
-    -- "c_sharp",
+    "c_sharp",
     -- "kotlin",
     -- "java",
 
-    -- "json",
-    -- "yaml",
-    -- "toml",
-    -- "markdown",
+    "json",
+    "yaml",
+    "toml",
     -- "terraform",       -- Terraform / hcl files support
-    -- "dockerfile",
+    "dockerfile",
     -- "nix",             -- Nix declarations
   },
 }
