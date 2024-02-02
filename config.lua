@@ -59,6 +59,7 @@ end
 vim.opt.colorcolumn = "120"
 
 doom.langs.cc.settings.language_server_name = "clangd"
+doom.core.treesitter.settings.show_compiler_warning_message = false
 
 doom.features.linter.settings.format_on_save = true
 
