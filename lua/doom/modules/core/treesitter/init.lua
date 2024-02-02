@@ -47,7 +47,6 @@ treesitter.packages = {
   ["nvim-treesitter"] = {
     "nvim-treesitter/nvim-treesitter",
     build =  ":TSUpdate",
-      ["latest"] = "cc360a9beb1b30d172438f640e2c3450358c4086",
     branch = "master",
   },
   ["nvim-ts-context-commentstring"] = {
