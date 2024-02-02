@@ -92,8 +92,6 @@ doom.use_package({
 
 -- chatgpt
 
-vim.env.OPENAI_API_KEY = "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"
-
 -- doom.use_package({
 --   "jackMort/ChatGPT.nvim",
 --   config = function()
