@@ -5,31 +5,36 @@ dashboard.settings = {
     {
       icon = "  ",
       desc = "Recently Opened Files          ",
-      shortcut = "SPC f r",
+      keymap = "SPC f r",
+      key = "r",
       action = "Telescope oldfiles",
     },
     {
       icon = "  ",
       desc = "Jump to Bookmark               ",
-      shortcut = "SPC s m",
+      keymap = "SPC s m",
+      key = "b",
       action = "Telescope marks",
     },
     {
       icon = "  ",
       desc = "Open Configuration             ",
-      shortcut = "SPC D c",
+      keymap = "SPC D c",
+      key = "c",
       action = "e " .. require("doom.core.config").source,
     },
     {
       icon = "  ",
       desc = "Open Modules                   ",
-      shortcut = "SPC D m",
+      keymap = "SPC D m",
+      key = "m",
       action = "e " .. require("doom.core.modules").source,
     },
     {
       icon = "  ",
       desc = "Open Documentation             ",
-      shortcut = "SPC D d",
+      keymap = "SPC D d",
+      key = "d",
       action = "lua require('doom.core.functions').open_docs()",
     },
   },
@@ -59,14 +64,14 @@ dashboard.settings = {
   colors = {
     header = "#586268",
     center = "#51afef",
-    shortcut = "#a9a1e1",
+    keymap = "#a9a1e1",
     footer = "#586268",
   },
 }
 
 dashboard.packages = {
   ["dashboard-nvim"] = {
-    "glepnir/dashboard-nvim",
+    "nvimdev/dashboard-nvim",
     cmd = "Dashboard",
     lazy = true,
   },
@@ -85,30 +90,41 @@ dashboard.configs["dashboard-nvim"] = function()
     vim.g.dashboard_default_executive = "telescope"
   end
   if is_module_enabled("features", "auto_session") then
-    doom.features.dashboard.settings.entries.a = {
+    table.insert(doom.features.dashboard.settings.entries, {
       icon = "  ",
       desc = "Load Last Session              ",
-      shortcut = "SPC q r",
+      keymap = "SPC q r",
+      key = "l",
       action = "lua require('persistence').load({ last = true })",
-    }
+    })
   end
 
-  db.custom_center = doom.features.dashboard.settings.entries
+  local config = {}
+
+  config.center = doom.features.dashboard.settings.entries
 
   if type(doom.features.dashboard.settings.footer) ~= "function" then
-    db.custom_footer = doom.features.dashboard.settings.footer
+    config.footer = doom.features.dashboard.settings.footer
   end
 
   if type(doom.features.dashboard.settings.header) ~= "function" then
-    db.custom_header = doom.features.dashboard.settings.header
+    config.header = doom.features.dashboard.settings.header
   end
-  db.hide_tabline = false
-  db.hide_statusline = false
+
+  db.setup({
+    theme = "doom",
+    config = config,
+    hide = {
+      tabline = false,
+      statusline = false,
+    },
+  })
+
   -- Header color
   vim.cmd("hi! dashboardHeader   guifg=" .. doom.features.dashboard.settings.colors.header)
   vim.cmd("hi! dashboardCenter   guifg=" .. doom.features.dashboard.settings.colors.center)
   vim.cmd("hi! DashboardCenterIcon   guifg=" .. doom.features.dashboard.settings.colors.center)
-  vim.cmd("hi! dashboardShortcut guifg=" .. doom.features.dashboard.settings.colors.shortcut)
+  vim.cmd("hi! dashboardShortcut guifg=" .. doom.features.dashboard.settings.colors.keymap)
   vim.cmd("hi! dashboardFooter   guifg=" .. doom.features.dashboard.settings.colors.footer)
 end
 

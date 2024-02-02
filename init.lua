@@ -48,3 +48,6 @@ end, 1)
 
 
 profiler.stop("framework|init.lua")
+
+vim.g.skip_ts_context_commentstring_module = true
+
