@@ -58,6 +58,10 @@ end
 
 vim.opt.colorcolumn = "120"
 
+if vim.loop.os_uname().sysname == "Windows_NT" then
+  doom.features.terminal.settings.shell = '"C:/Program Files/Git/bin/bash.exe" -i -l'
+end
+
 doom.langs.cc.settings.language_server_name = "clangd"
 doom.core.treesitter.settings.show_compiler_warning_message = false
 
