@@ -44,12 +44,18 @@
 -- doom.freeze_dependencies = false
 -- doom.indent = 2
 
+-- Enabling exrc
+vim.o.exrc = true
+vim.o.secure = true
+
+-- Reloading externally changed files
 vim.o.autoread = true
 vim.api.nvim_create_autocmd({ "BufEnter", "CursorHold", "CursorHoldI", "FocusGained" }, {
   command = "if mode() != 'c' | checktime | endif",
   pattern = { "*" },
 })
 
+-- Neovide config
 if vim.g.neovide then
   -- vim.g.neovide_scale_factor = 0.85
   vim.o.guifont = "Hack,Noto_Color_Emoji,Source Code Pro:h13:#e-subpixelantialias:#h-none"
@@ -73,6 +79,54 @@ doom.features.lsp.settings.signature.floating_window = true
 
 vim.treesitter.query.get_query = vim.treesitter.query.get
 vim.treesitter.query.get_node_text = vim.treesitter.get_node_text
+
+-- DAP
+
+doom.modules.features.dap.configs["nvim-dap"] = function()
+  local dap = require("dap")
+  if vim.fn.executable("lldb-vscode") == 1 then
+    dap.adapters.lldb = {
+      type = "executable",
+      command = vim.fn.exepath("lldb-vscode"),
+      name = "lldb",
+    }
+  end
+  if
+    os.getenv("VIRTUAL_ENV") and vim.fn.executable(os.getenv("VIRTUAL_ENV") .. "/bin/python") == 1
+  then
+    dap.adapters.python = {
+      type = "executable",
+      command = os.getenv("VIRTUAL_ENV") .. "/bin/python",
+      args = { "-m", "debugpy.adapter" },
+    }
+  elseif vim.fn.executable("python3") == 1 then
+    dap.adapters.python = {
+      type = "executable",
+      command = vim.fn.exepath("python3"),
+      args = { "-m", "debugpy.adapter" },
+    }
+  elseif vim.fn.executable("python") == 1 then
+    dap.adapters.python = {
+      type = "executable",
+      command = vim.fn.exepath("python"),
+      args = { "-m", "debugpy.adapter" },
+    }
+  end
+  require("dap.ext.vscode").load_launchjs(".dap/launch.json", { cppdbg = { "c", "cpp" } })
+end
+
+vim.keymap.set("n", "<F5>", function()
+  require("dap").continue()
+end)
+vim.keymap.set("n", "<F10>", function()
+  require("dap").step_over()
+end)
+vim.keymap.set("n", "<F11>", function()
+  require("dap").step_into()
+end)
+vim.keymap.set("n", "<F12>", function()
+  require("dap").step_out()
+end)
 
 -- jupyter notebooks
 

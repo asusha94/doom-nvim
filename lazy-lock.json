@@ -50,6 +50,7 @@
   "telescope-file-browser.nvim": { "branch": "master", "commit": "6dd6522bc1a4cbe5883eb0272f5cc7a54ae3858b" },
   "telescope.nvim": { "branch": "master", "commit": "7b5c5f56a21e82fdcfe5b250278b8dfc4b1cbab4" },
   "toggleterm.nvim": { "branch": "main", "commit": "b49df5cdce67a8964d1b027dae94bde212092b51" },
+  "vim-doge": { "branch": "master", "commit": "a96aef58c04e30caf0ce6e98da2e43694624df18" },
   "vim-superman": { "branch": "master", "commit": "19d307446576d9118625c5d9d3c7a4c9bec5571a" },
   "which-key.nvim": { "branch": "main", "commit": "4433e5ec9a507e5097571ed55c02ea9658fb268a" }
 }
