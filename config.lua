@@ -92,7 +92,7 @@ doom.modules.features.dap.configs["nvim-dap"] = function()
     }
   end
   if
-    os.getenv("VIRTUAL_ENV") and vim.fn.executable(os.getenv("VIRTUAL_ENV") .. "/bin/python") == 1
+      os.getenv("VIRTUAL_ENV") and vim.fn.executable(os.getenv("VIRTUAL_ENV") .. "/bin/python") == 1
   then
     dap.adapters.python = {
       type = "executable",
@@ -112,7 +112,20 @@ doom.modules.features.dap.configs["nvim-dap"] = function()
       args = { "-m", "debugpy.adapter" },
     }
   end
-  require("dap.ext.vscode").load_launchjs(".dap/launch.json", { cppdbg = { "c", "cpp" } })
+
+  local project_launch_path = vim.fn.getcwd() .. "/.dap/launch.json"
+  local lsp_clients = vim.lsp.get_active_clients()
+  if lsp_clients ~= nil then
+    for _, item in ipairs(lsp_clients) do
+      local candidate = item.root_dir .. "/.dat/launch.json"
+      if vim.fn.filereadable(candidate) then
+        project_launch_path = candidate
+        break
+      end
+    end
+  end
+
+  require("dap.ext.vscode").load_launchjs(project_launch_path, { cppdbg = { "c", "cpp" } })
 end
 
 vim.keymap.set("n", "<F5>", function()
