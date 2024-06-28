@@ -80,7 +80,14 @@ doom.features.lsp.settings.signature.floating_window = true
 vim.treesitter.query.get_query = vim.treesitter.query.get
 vim.treesitter.query.get_node_text = vim.treesitter.get_node_text
 
+doom.features.annotations.settings.languages.rust =
+{ template = { annotation_convention = "rust_alternative" } }
+
 -- DAP
+
+doom.use_package({
+  "nvim-neotest/nvim-nio",
+})
 
 doom.modules.features.dap.configs["nvim-dap"] = function()
   local dap = require("dap")
@@ -140,6 +147,18 @@ end)
 vim.keymap.set("n", "<F12>", function()
   require("dap").step_out()
 end)
+
+doom.use_keybind({
+  -- The `name` field will add the keybind to whichkey
+  {
+    "<leader>s",
+    name = "+search",
+    {
+      -- Bind to a vim command
+      { "g", "Telescope grep_string<CR>", name = "Grep project" },
+    },
+  },
+})
 
 -- jupyter notebooks
 
