@@ -60,6 +60,7 @@ if vim.g.neovide then
   -- vim.g.neovide_scale_factor = 0.85
   vim.o.guifont = "Hack,Noto_Color_Emoji,Source Code Pro:h13:#e-subpixelantialias:#h-none"
   vim.g.neovide_remember_window_size = true
+  vim.g.neovide_hide_mouse_when_typing = true
 end
 
 vim.opt.colorcolumn = "120"
