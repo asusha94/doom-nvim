@@ -82,7 +82,7 @@ vim.treesitter.query.get_query = vim.treesitter.query.get
 vim.treesitter.query.get_node_text = vim.treesitter.get_node_text
 
 doom.features.annotations.settings.languages.rust =
-{ template = { annotation_convention = "rust_alternative" } }
+  { template = { annotation_convention = "rust_alternative" } }
 
 -- DAP
 
@@ -100,7 +100,7 @@ doom.modules.features.dap.configs["nvim-dap"] = function()
     }
   end
   if
-      os.getenv("VIRTUAL_ENV") and vim.fn.executable(os.getenv("VIRTUAL_ENV") .. "/bin/python") == 1
+    os.getenv("VIRTUAL_ENV") and vim.fn.executable(os.getenv("VIRTUAL_ENV") .. "/bin/python") == 1
   then
     dap.adapters.python = {
       type = "executable",
@@ -179,6 +179,103 @@ doom.use_package({
       -- Style for the virtual text at the top of a cell
       virtual_text_style = { fg = "lightblue", italic = true },
     })
+  end,
+})
+
+-- doom.use_package({
+--   "rcarriga/nvim-notify",
+--   config = function()
+--     require("notify").setup({
+--       stages = "fade",
+--     })
+--     vim.notify = require("notify")
+--   end,
+-- })
+
+doom.modules.features.lsp_progress.packages["fidget.nvim"].tag = "v1.4.5"
+doom.modules.features.lsp_progress.settings = {
+  notification = {
+    override_vim_notify = true,
+  },
+  integration = {
+    ["nvim-tree"] = {
+      enable = false,
+    },
+    ["xcodebuild-nvim"] = {
+      enable = false,
+    },
+  },
+}
+
+-- Codeium
+-- see: https://github.com/Exafunction/codeium.vim
+
+doom.use_package({
+  "Exafunction/codeium.vim",
+  config = function()
+    -- Change '<C-g>' here to any keycode you like.
+    vim.keymap.set("i", "<C-Enter>", function()
+      return vim.fn["codeium#Accept"]()
+    end, { expr = true, silent = true })
+    vim.keymap.set("i", "<c-;>", function()
+      return vim.fn["codeium#CycleCompletions"](1)
+    end, { expr = true, silent = true })
+    vim.keymap.set("i", "<c-,>", function()
+      return vim.fn["codeium#CycleCompletions"](-1)
+    end, { expr = true, silent = true })
+    vim.keymap.set("i", "<c-x>", function()
+      return vim.fn["codeium#Clear"]()
+    end, { expr = true, silent = true })
+    vim.keymap.set("i", "<M-c>", function()
+      return vim.fn["codeium#Chat"]()
+    end, { expr = true, silent = true })
+  end,
+})
+
+local ignored_projects = {
+  -- 'myrspoven'
+}
+
+local ignored_buffers = {
+  "/dev/shm/pass",
+}
+
+doom.use_autocmd({
+  "BufEnter",
+  "*",
+  function(ev)
+    -- Ignore buffers with no name
+    if string.len(ev.match) == 0 then
+      return
+    end
+    -- Ignore buffers in ignored_buffers
+    for _, value in pairs(ignored_buffers) do
+      if string.find(ev.match, value) then
+        if vim.g.codeium_enabled then
+          vim.g.codeium_enabled = false
+          vim.notify("Disabled for this buffer", "warn", { title = "Codeium", timeout = 1000 })
+        end
+        return
+      end
+    end
+    for _, value in pairs(ignored_projects) do
+      if string.find(ev.match, value) then
+        if vim.g.codeium_enabled then
+          vim.g.codeium_enabled = false
+          vim.notify(
+            "Disabled for project " .. value,
+            "warn",
+            { title = "Codeium", timeout = 1000 }
+          )
+        end
+        return
+      end
+    end
+
+    if not vim.g.codeium_enabled then
+      vim.g.codeium_enabled = true
+      vim.notify("Enabled", "info", { title = "Codeium", timeout = 1000 })
+    end
   end,
 })
 
