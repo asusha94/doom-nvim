@@ -18,9 +18,8 @@ rust.settings = {
   --- @type table|nil
   lsp_config = {
     settings = {
-      ['rust-analyzer'] = {
-      }
-    }
+      ["rust-analyzer"] = {},
+    },
   },
 
   --- Disables null-ls formatting sources
@@ -31,7 +30,8 @@ rust.settings = {
   formatting_package = nil,
   --- String to access the null_ls diagnositcs provider
   --- @type string
-  formatting_provider = "builtins.formatting.rustfmt",
+  --- formatting_provider = "builtins.formatting.rustfmt",
+  formatting_provider = "formatting.rustfmt",
   --- Function to configure null-ls formatter
   --- @type function|nil
   formatting_config = nil,

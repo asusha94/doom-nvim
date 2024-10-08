@@ -82,7 +82,7 @@ vim.treesitter.query.get_query = vim.treesitter.query.get
 vim.treesitter.query.get_node_text = vim.treesitter.get_node_text
 
 doom.features.annotations.settings.languages.rust =
-  { template = { annotation_convention = "rust_alternative" } }
+{ template = { annotation_convention = "rust_alternative" } }
 
 -- DAP
 
@@ -100,7 +100,7 @@ doom.modules.features.dap.configs["nvim-dap"] = function()
     }
   end
   if
-    os.getenv("VIRTUAL_ENV") and vim.fn.executable(os.getenv("VIRTUAL_ENV") .. "/bin/python") == 1
+      os.getenv("VIRTUAL_ENV") and vim.fn.executable(os.getenv("VIRTUAL_ENV") .. "/bin/python") == 1
   then
     dap.adapters.python = {
       type = "executable",
@@ -210,6 +210,20 @@ doom.modules.features.lsp_progress.settings = {
 -- Codeium
 -- see: https://github.com/Exafunction/codeium.vim
 
+table.insert(doom.modules.features.lsp.settings.completion.sources, { name = "codeium" })
+
+-- -- NVIM package works with cmp (no comment generation)
+-- doom.use_package({
+--   "Exafunction/codeium.nvim",
+--   dependencies = {
+--     "nvim-lua/plenary.nvim",
+--     "hrsh7th/nvim-cmp",
+--   },
+--   config = function()
+--     require("codeium").setup({})
+--   end,
+-- })
+
 doom.use_package({
   "Exafunction/codeium.vim",
   config = function()
@@ -226,15 +240,13 @@ doom.use_package({
     vim.keymap.set("i", "<c-x>", function()
       return vim.fn["codeium#Clear"]()
     end, { expr = true, silent = true })
-    vim.keymap.set("i", "<M-c>", function()
+    vim.keymap.set("n", "<M-c>", function()
       return vim.fn["codeium#Chat"]()
     end, { expr = true, silent = true })
   end,
 })
 
-local ignored_projects = {
-  -- 'myrspoven'
-}
+local ignored_projects = {}
 
 local ignored_buffers = {
   "/dev/shm/pass",

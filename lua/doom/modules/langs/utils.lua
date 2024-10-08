@@ -56,21 +56,49 @@ module.use_null_ls = function(package_name, null_ls_path, configure_function)
     -- Check if null-ls is loaded and load it if not.
     local ok = pcall(require, "null-ls")
     if not ok then
-      require("lazy").load({ plugins = { "null-ls.nvim" } })
+      require("lazy").load({ plugins = { "none-ls.nvim" } })
     end
 
     local start_null_ls = function()
-      local null_ls = require("null-ls")
-      local path = vim.split(null_ls_path, "%.", nil)
-      if #path ~= 3 then
+      local require_provider = function(prefix, path)
+        path = vim.split(path, "%.", nil)
+        local provider_str
+        if #path == 2 then
+          provider_str = ("%s.%s.%s"):format(prefix, path[1], path[2])
+        elseif #path == 3 then
+          provider_str = ("%s.%s.%s.%s"):format(prefix, path[1], path[2], path[3])
+        else
+          error(
+            ("Error setting up null-ls provider `%s`.\n\n  null_ls_path should have 3 segments i.e. `builtins.formatting.stylua"):format(
+              null_ls_path
+            )
+          )
+        end
+
+        return require(provider_str)
+      end
+
+      local result = ""
+      local provider = nil
+      ok, result = pcall(require, null_ls_path)
+      if ok then
+        provider = result
+      else
+        for _, prefix in ipairs({ "none-ls", "null-ls" }) do
+          ok, result = pcall(require_provider, prefix, null_ls_path)
+          if ok then
+            provider = result
+            break
+          end
+        end
+      end
+
+      if not provider then
         log.error(
-          (
-            "Error setting up null-ls provider `%s`.\n\n  null_ls_path should have 3 segments i.e. `builtins.formatting.stylua"
-          ):format(null_ls_path)
+          ("Error setting up null_ls provider `%s`. Reason: \n%s"):format(null_ls_path, result)
         )
         return
       end
-      local provider = null_ls[path[1]][path[2]][path[3]]
 
       if configure_function then
         provider = configure_function(provider)
@@ -122,7 +150,7 @@ module.use_mason_package = function(package_name, success_handler, error_handler
   profiler.start("mason|using package " .. package_name)
   local ok, err = xpcall(function()
     local registry = require("mason-registry")
-    registry.refresh(function ()
+    registry.refresh(function()
       local package = mason.get_package(package_name)
       if not package:is_installed() then
         -- If statusline enabled, push the package to the statusline state
@@ -236,9 +264,10 @@ module.use_lsp_mason = function(lsp_name, options)
     local final_config = vim.tbl_deep_extend("keep", user_config or {}, capabilities_config)
     if lsp[config_name].setup == nil then
       log.warn(
-        (
-          "Cannot start LSP %s with config name %s. Reason: The LSP config does not exist, please create an issue so this can be resolved."
-        ):format(lsp_name, config_name)
+        ("Cannot start LSP %s with config name %s. Reason: The LSP config does not exist, please create an issue so this can be resolved."):format(
+          lsp_name,
+          config_name
+        )
       )
       return
     end

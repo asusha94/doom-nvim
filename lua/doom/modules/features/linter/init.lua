@@ -12,8 +12,8 @@ linter.requires_modules = { "features.lsp" }
 
 linter.packages = {
   ["null-ls.nvim"] = {
-    "jose-elias-alvarez/null-ls.nvim",
-    dependencies={"neovim/nvim-lspconfig"},
+    "nvimtools/none-ls.nvim",
+    dependencies = { "neovim/nvim-lspconfig", "nvimtools/none-ls-extras.nvim" },
     lazy = true,
   },
 }
