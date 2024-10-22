@@ -107,16 +107,16 @@ doom.modules.features.dap.configs["nvim-dap"] = function()
       command = os.getenv("VIRTUAL_ENV") .. "/bin/python",
       args = { "-m", "debugpy.adapter" },
     }
-  elseif vim.fn.executable("python3") == 1 then
-    dap.adapters.python = {
-      type = "executable",
-      command = vim.fn.exepath("python3"),
-      args = { "-m", "debugpy.adapter" },
-    }
   elseif vim.fn.executable("python") == 1 then
     dap.adapters.python = {
       type = "executable",
       command = vim.fn.exepath("python"),
+      args = { "-m", "debugpy.adapter" },
+    }
+  elseif vim.fn.executable("python3") == 1 then
+    dap.adapters.python = {
+      type = "executable",
+      command = vim.fn.exepath("python3"),
       args = { "-m", "debugpy.adapter" },
     }
   end
@@ -125,7 +125,7 @@ doom.modules.features.dap.configs["nvim-dap"] = function()
   local lsp_clients = vim.lsp.get_active_clients()
   if lsp_clients ~= nil then
     for _, item in ipairs(lsp_clients) do
-      local candidate = item.root_dir .. "/.dat/launch.json"
+      local candidate = item.root_dir .. "/.dap/launch.json"
       if vim.fn.filereadable(candidate) then
         project_launch_path = candidate
         break
